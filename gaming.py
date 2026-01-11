@@ -1,9 +1,7 @@
 import card
 import io
 
-d = card.initializeDeck()
-d = card.shuffleDecks(d)
-currentRound = 0
+
 
 def deal(deck):
     return [deck.pop(),deck.pop(),deck.pop(),deck.pop(),deck.pop()]
@@ -20,7 +18,7 @@ def extractData(hand):
 
 
 def swapCards(hand,deck):
-    count = 13
+    count = 3
     while count > 0:
         for i in range(len(hand)):
             print(str(i+1)+'.',hand[i])
@@ -73,6 +71,19 @@ def score(hand):
         if numList[i-1] == numList[i]:
             numSame+=1
 
+    valueDict = {}
+    for i in numList:
+        if i in valueDict:
+            valueDict[i] = valueDict[i]+1
+        else:
+            valueDict[i] = 1
+
+    #print(valueDict)
+    twopaircheck = []
+    for i in valueDict:
+        #print('valuedict',i,valueDict[i])
+        if valueDict[i] == 2:
+            twopaircheck.append(i)
 
     #royal flush            10
     #straight flush         9
@@ -88,31 +99,43 @@ def score(hand):
 
     if royal == 1 and len(flushCheck) == 1:
         print("Royal Flush")
+        return "Royal Flush"
     elif numAsc == 4 and len(flushCheck) == 1:
         print("Straight Flush")
+        return "Straight Flush"
     elif numSame == 4:
         print("Four of a Kind")
+        return "Four of a Kind"
     elif len(set(numList)) == 2:
         print("Full House")
+        return "Full House"
     elif len(flushCheck) == 1:
         print("Flush")
-    elif numAsc == 4:
+        return "Flush"
+    elif numAsc == 4 or royal == 1:
         print("Straight")
+        return "Straight"
     elif numSame == 3:
         print("Three of a Kind")
-
-    ## NEED TWO PAIR
-    
-    elif numSame == 2:
+        return "Three of a Kind"
+    elif len(twopaircheck) == 2:
+        print("Two Pair")    
+        return "Two Pair"
+    elif len(twopaircheck) == 1:
         print("Pair")
+        return "Pair"
     else:
         print("High Card")
+        return "High Card"
 
 
     pass
 
 
 
+d = card.initializeDeck()
+d = card.shuffleDecks(d)
+currentRound = 0
 
 hand = deal(d)
 #extractData(hand)
@@ -126,6 +149,5 @@ print('//////////')
 #
 # hand.sort()
 #extractData(hand)
-
-
 score(hand)
+extractData(hand)
