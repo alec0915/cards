@@ -36,8 +36,11 @@ class Card:
 def initializeDeck():
     Deck = []
 
-    valueList = ['Ace','2','3','4','5','6','7','8','9','10','Jack','Queen','King']
-    suitList = ['Clubs','Hearts','Diamonds','Spades']
+    #valueList = ['Ace','2','3','4','5','6','7','8','9','10','Jack','Queen','King']
+    valueList = ['Ace','10','Jack','Queen','King']
+    #suitList = ['Clubs','Hearts','Diamonds','Spades']
+    suitList = ['Clubs']
+
 
     for i in valueList:
         for j in suitList:

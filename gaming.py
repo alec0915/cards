@@ -20,7 +20,7 @@ def extractData(hand):
 
 
 def swapCards(hand,deck):
-    count = 3
+    count = 13
     while count > 0:
         for i in range(len(hand)):
             print(str(i+1)+'.',hand[i])
@@ -46,6 +46,34 @@ def swapCards(hand,deck):
 
 
 def score(hand):
+
+
+    hierarchy = {'Ace':1,'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'Jack':11,'Queen':12,'King':13}
+
+    numSame = 0
+    numSame2 = 0
+    suitSame = 1
+    numList = []
+    suitList = []
+    royal = 0
+    for i in hand:
+        numList.append(hierarchy[i.getValue()])
+        suitList.append(i.getSuit())
+    numList.sort()
+    numAsc = 0
+    
+    if numList == [1,10,11,12,13]:
+        royal = 1
+    
+    flushCheck = set(suitList) # if len is 1 then its a flush so a set works well bc it removes duplicate entries and one left means all duplicates
+
+    for i in range(1,len(numList)):
+        if numList[i-1] == numList[i]-1:
+            numAsc+=1
+        if numList[i-1] == numList[i]:
+            numSame+=1
+
+
     #royal flush            10
     #straight flush         9
     #four of a kind         8
@@ -57,18 +85,29 @@ def score(hand):
     #pair                   2
     #high card              1
 
-    hierarchy = {'Ace':1,'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'Jack':11,'Queen':12,'King':13}
 
-    numSame = 0
-    suitSame = 0
-    numList = []
-    suitList = []
-    for i in hand:
-        numList.append(i.getValue())
-        suitList.append(i.getSuit())
+    if royal == 1 and len(flushCheck) == 1:
+        print("Royal Flush")
+    elif numAsc == 4 and len(flushCheck) == 1:
+        print("Straight Flush")
+    elif numSame == 4:
+        print("Four of a Kind")
+    elif len(set(numList)) == 2:
+        print("Full House")
+    elif len(flushCheck) == 1:
+        print("Flush")
+    elif numAsc == 4:
+        print("Straight")
+    elif numSame == 3:
+        print("Three of a Kind")
 
-    for i in numList:
-        print(hierarchy[i])
+    ## NEED TWO PAIR
+    
+    elif numSame == 2:
+        print("Pair")
+    else:
+        print("High Card")
+
 
     pass
 
@@ -84,8 +123,9 @@ swapCards(hand,d)
 print('//////////')
 print('FINAL HAND')
 print('//////////')
-hand.sort()
-extractData(hand)
+#
+# hand.sort()
+#extractData(hand)
 
 
 score(hand)
