@@ -37,7 +37,7 @@ def initializeDeck():
     Deck = []
 
     valueList = ['Ace','2','3','4','5','6','7','8','9','10','Jack','Queen','King']
-    #valueList = ['Ace','10','Jack','Queen','King']
+    #valueList = ['Ace','2','3','4','5']
     suitList = ['Clubs','Hearts','Diamonds','Spades']
     #suitList = ['Clubs']
 

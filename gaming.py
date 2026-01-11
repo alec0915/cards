@@ -20,12 +20,18 @@ def extractData(hand):
 def swapCards(hand,deck):
     count = 3
     while count > 0:
+        print()
+        score(hand)
         for i in range(len(hand)):
             print(str(i+1)+'.',hand[i])
         try: 
-            print(count,"swaps left")
-            userInput = input("Pick cards to swap out in one line separated by spaces (type d when you're done swapping)")
-            nums = userInput.rstrip().split(' ')
+            print()
+            if count == 1:
+                print(count,'swap left')
+            else:
+                print(count,"swaps left")
+            userInput = input("Type the numbers next to cards to swap out in one line separated by spaces then hit enter to swap. \nHit enter with nothing typed to finish. ")
+            nums = userInput.lstrip().rstrip().split(' ')
             nums.sort()
 
 
@@ -38,7 +44,9 @@ def swapCards(hand,deck):
                 hand.append(deck.pop())
             count -=1
         except ValueError:
-            print('please enter a valid number')
+            print('\nPlease enter a valid number\n')
+        except IndexError:
+            print("\nPlease type only numbers 1-5 with only spaces between each number\n")
     for i in hand:
         print(i)
 
@@ -78,12 +86,20 @@ def score(hand):
         else:
             valueDict[i] = 1
 
-    #print(valueDict)
+    #print('valdict:', valueDict)
     twopaircheck = []
+    tripscheck = 0
+    fourcheck = 0
     for i in valueDict:
         #print('valuedict',i,valueDict[i])
         if valueDict[i] == 2:
             twopaircheck.append(i)
+        if valueDict[i] == 3:
+            tripscheck = 1
+        if valueDict[i] == 4:
+            fourcheck = 1
+
+
 
     #royal flush            10
     #straight flush         9
@@ -103,10 +119,11 @@ def score(hand):
     elif numAsc == 4 and len(flushCheck) == 1:
         print("Straight Flush")
         return "Straight Flush"
-    elif numSame == 4:
+    elif fourcheck == 1:
         print("Four of a Kind")
         return "Four of a Kind"
-    elif len(set(numList)) == 2:
+    #elif len(set(numList)) == 2:
+    elif tripscheck == 1 and len(twopaircheck) == 1:
         print("Full House")
         return "Full House"
     elif len(flushCheck) == 1:
@@ -115,7 +132,7 @@ def score(hand):
     elif numAsc == 4 or royal == 1:
         print("Straight")
         return "Straight"
-    elif numSame == 3:
+    elif tripscheck == 1:
         print("Three of a Kind")
         return "Three of a Kind"
     elif len(twopaircheck) == 2:
@@ -136,6 +153,7 @@ def score(hand):
 d = card.initializeDeck()
 d = card.shuffleDecks(d)
 currentRound = 0
+print("\n")
 
 hand = deal(d)
 #extractData(hand)
@@ -143,11 +161,12 @@ hand = deal(d)
 
 swapCards(hand,d)
 
-print('//////////')
+print('\n//////////')
 print('FINAL HAND')
-print('//////////')
+print('//////////\n')
 #
 # hand.sort()
 #extractData(hand)
 score(hand)
 extractData(hand)
+print()
